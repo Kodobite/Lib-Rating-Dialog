@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3769F1</color>
+
+    <color name="lightBlue">#D9E4FF</color>
+
+    <color name="textColor">#151A30</color>
+    <color name="textColorLight">#757C86</color>
+
+
+    <color name="danger">#FE5050</color>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>
