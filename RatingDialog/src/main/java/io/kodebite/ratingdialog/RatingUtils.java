@@ -3,7 +3,12 @@ package io.kodebite.ratingdialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
+import com.google.android.material.card.MaterialCardView;
 
 public class RatingUtils {
 
@@ -49,6 +54,25 @@ public class RatingUtils {
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.getWindow().setLayout(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
         dialog.setCancelable(true);
+
+        MaterialCardView btnLove = dialog.findViewById(R.id.btnLoveIt);
+        MaterialCardView btnClose = dialog.findViewById(R.id.btnLater);
+        LinearLayout defaultLayout = dialog.findViewById(R.id.defaultRateLayout);
+        LinearLayout rateLayout = dialog.findViewById(R.id.rateLayout);
+        ImageView img1 = dialog.findViewById(R.id.ratingImg1);
+        ImageView img2 = dialog.findViewById(R.id.ratingImg2);
+
+        btnLove.setOnClickListener(v -> {
+            defaultLayout.setVisibility(View.GONE);
+            rateLayout.setVisibility(View.VISIBLE);
+            img1.setVisibility(View.GONE);
+            img2.setVisibility(View.VISIBLE);
+        });
+
+        btnClose.setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+
 
 //        RatingBar ratingBar = dialog.findViewById(R.id.ratingBar);
 //
