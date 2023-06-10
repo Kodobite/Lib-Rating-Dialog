@@ -1,14 +1,20 @@
 package io.kodebite.ratingdialog;
 
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class RatingUtils {
 
@@ -57,105 +63,112 @@ public class RatingUtils {
 
         MaterialCardView btnLove = dialog.findViewById(R.id.btnLoveIt);
         MaterialCardView btnClose = dialog.findViewById(R.id.btnLater);
+        MaterialCardView btnRate = dialog.findViewById(R.id.btnSubmit);
+        MaterialCardView btnImprove = dialog.findViewById(R.id.btnImprove);
+        MaterialCardView btnSendFeedback = dialog.findViewById(R.id.btnSendFeedback);
+        MaterialCardView btnLater = dialog.findViewById(R.id.btnLaterFeedback);
+
+        TextInputEditText editText = dialog.findViewById(R.id.feedbackMsg);
+
+
+        RatingBar ratingBar = dialog.findViewById(R.id.ratingBar);
+
         LinearLayout defaultLayout = dialog.findViewById(R.id.defaultRateLayout);
         LinearLayout rateLayout = dialog.findViewById(R.id.rateLayout);
+        LinearLayout feedbackLayout = dialog.findViewById(R.id.feedBackLayout);
+
         ImageView img1 = dialog.findViewById(R.id.ratingImg1);
         ImageView img2 = dialog.findViewById(R.id.ratingImg2);
+        ImageView img3 = dialog.findViewById(R.id.ratingImg3);
+
+
+        if (editText == null) {
+            return;
+        }
+        if (ratingBar == null) {
+            return;
+        }
+        if (btnRate == null) {
+            return;
+        }
+        if (btnSendFeedback == null) {
+            return;
+        }
+
 
         btnLove.setOnClickListener(v -> {
+            feedbackLayout.setVisibility(View.GONE);
             defaultLayout.setVisibility(View.GONE);
             rateLayout.setVisibility(View.VISIBLE);
             img1.setVisibility(View.GONE);
+            img3.setVisibility(View.GONE);
             img2.setVisibility(View.VISIBLE);
+        });
+
+        btnLater.setOnClickListener(v -> {
+            dialog.dismiss();
         });
 
         btnClose.setOnClickListener(v -> {
             dialog.dismiss();
         });
 
+        btnImprove.setOnClickListener(v -> {
+            defaultLayout.setVisibility(View.GONE);
+            rateLayout.setVisibility(View.GONE);
+            img1.setVisibility(View.GONE);
+            img2.setVisibility(View.GONE);
 
-//        RatingBar ratingBar = dialog.findViewById(R.id.ratingBar);
-//
-//        EditText editText = dialog.findViewById(R.id.editText);
-//
-//        MaterialButton submit = dialog.findViewById(R.id.submit_rate);
-//
-//        MaterialButton cancel = dialog.findViewById(R.id.cancelButton);
-//
-//        MaterialButton send = dialog.findViewById(R.id.sendButton);
-//
-//        LinearLayout feedbackLayout = dialog.findViewById(R.id.feedbackButtons);
-//
-//
-//        if (editText == null) {
-//            return;
-//        }
-//        if (ratingBar == null) {
-//            return;
-//        }
-//        if (submit == null) {
-//            return;
-//        }
-//        if (cancel == null) {
-//            return;
-//        }
-//        if (send == null) {
-//            return;
-//        }
-//        if (feedbackLayout == null) {
-//            return;
-//        }
-//
-//
-//        editText.setVisibility(View.GONE);
-//        feedbackLayout.setVisibility(View.GONE);
-//
-//        submit.setOnClickListener(v -> {
-//
-//            if (ratingBar.getRating() < 5) {
-//                editText.setVisibility(View.VISIBLE);
-//                feedbackLayout.setVisibility(View.VISIBLE);
-//                submit.setVisibility(View.GONE);
-//            } else {
-//                try {
-//                    context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + context.getPackageName())));
-//
-//                } catch (ActivityNotFoundException e) {
-//                    context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + context.getPackageName())));
-//                }
-//
-//                dialog.dismiss();
-//                editor.putBoolean(IsShown, true);
-//                editor.apply();
-//            }
-//        });
-//
-//        cancel.setOnClickListener(v -> dialog.dismiss());
-//
-//        send.setOnClickListener(v -> {
-//            if (editText.getText().toString().isEmpty()) {
-//                editText.setError("Please enter your feedback");
-//            } else if (editText.getText().toString().length() < 20) {
-//                editText.setError("Please enter at least 20 characters");
-//
-//            } else {
-//                Intent intent = new Intent(Intent.ACTION_SENDTO);
-//                intent.setData(Uri.parse("mailto:"));
-//                intent.putExtra(Intent.EXTRA_EMAIL, ConfigurationApp.email);
-//                intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback for All Recovery");
-//                try {
-//                    intent.putExtra(Intent.EXTRA_TEXT, context.getApplicationInfo().loadLabel(context.getPackageManager())
-//                            + " " + context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName
-//                            + "\n" + editText.getText().toString());
-//                    context.startActivity(Intent.createChooser(intent, "Send Feedback"));
-//                } catch (PackageManager.NameNotFoundException e) {
-//                    e.printStackTrace();
-//                }
-//                dialog.dismiss();
-//                editor.putBoolean(IsShown, true);
-//                editor.apply();
-//            }
-//        });
+            feedbackLayout.setVisibility(View.VISIBLE);
+            img3.setVisibility(View.VISIBLE);
+
+        });
+
+        btnRate.setOnClickListener(v -> {
+
+            if (ratingBar.getRating() < 5) {
+                feedbackLayout.setVisibility(View.VISIBLE);
+                img3.setVisibility(View.VISIBLE);
+                rateLayout.setVisibility(View.GONE);
+                img2.setVisibility(View.GONE);
+            } else {
+                try {
+                    context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + context.getPackageName())));
+
+                } catch (ActivityNotFoundException e) {
+                    context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + context.getPackageName())));
+                }
+
+                dialog.dismiss();
+                editor.putBoolean(IsShown, true);
+                editor.apply();
+            }
+        });
+
+        btnSendFeedback.setOnClickListener(v -> {
+            if (editText.getText().toString().isEmpty()) {
+                editText.setError("Please enter your feedback");
+            } else if (editText.getText().toString().length() < 20) {
+                editText.setError("Please enter at least 20 characters");
+
+            } else {
+                Intent intent = new Intent(Intent.ACTION_SENDTO);
+                intent.setData(Uri.parse("mailto:"));
+                intent.putExtra(Intent.EXTRA_EMAIL, "support.xa018bc93@kodebite.io");
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback for WA Toolbox");
+                try {
+                    intent.putExtra(Intent.EXTRA_TEXT, context.getApplicationInfo().loadLabel(context.getPackageManager())
+                            + " " + context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName
+                            + "\n" + editText.getText().toString());
+                    context.startActivity(Intent.createChooser(intent, "Send Feedback"));
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
+                dialog.dismiss();
+                editor.putBoolean(IsShown, true);
+                editor.apply();
+            }
+        });
 
         dialog.setOnDismissListener(dialog -> {
             editor.putBoolean(IsShown, true);
