@@ -25,10 +25,10 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-//        RatingUtils ratingUtils = new RatingUtils(this);
-//        ratingUtils.setTargetLaunchCount(1);
-//        ratingUtils.startLaunchCounting(true);
-//        ratingUtils.setDialog();
+        RatingUtils ratingUtils = new RatingUtils(this);
+        ratingUtils.setTargetLaunchCount(3);
+        ratingUtils.startLaunchCounting(true);
+        ratingUtils.setDialog();
 
 
     }
