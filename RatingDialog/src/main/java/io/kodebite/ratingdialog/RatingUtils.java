@@ -155,7 +155,7 @@ public class RatingUtils {
                 Intent intent = new Intent(Intent.ACTION_SENDTO);
                 intent.setData(Uri.parse("mailto:"));
                 intent.putExtra(Intent.EXTRA_EMAIL, "support.xa018bc93@kodebite.io");
-                intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback for WA Toolbox");
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback");
                 try {
                     intent.putExtra(Intent.EXTRA_TEXT, context.getApplicationInfo().loadLabel(context.getPackageManager())
                             + " " + context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName
