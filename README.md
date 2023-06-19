@@ -20,4 +20,3 @@ RatingUtils ratingUtils = new RatingUtils(this);
         ratingUtils.setTargetLaunchCount(6);
         ratingUtils.startLaunchCounting(true);
         ratingUtils.setDialog();
-    ```
